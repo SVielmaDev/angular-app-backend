@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: Games API
+  version: 1.0.0
+  description: API para consultar informacion sobre videojuegos.
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+paths:
+  /api/games:
+    get:
+      summary: Obtener todos los videojuegos
+      operationId: getGames
+      x-eov-operation-handler: games
+      responses:
+        '200':
+          description: Lista de videojuegos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+
+    post:
+      summary: añadir un videojuego
+      operationId: addGame
+      x-eov-operation-handler: games
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewGame'
+      responses:
+        '201':
+          description: Videojuego agregado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        '400':
+          description: Solicitud invalida
+
+
+components:
+  schemas:
+    Game:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        release_year:
+          type: integer
+        platforms:
+          type: array
+          items:
+            type: string
+        genre:
+          type: string
+        game_mode:
+          type: string
+        developer:
+          type: string
+        cover:
+          type: string
+
+    NewGame:
+      type: object
+      required:
+        - title
+        - release_year
+        - platforms
+        - genre
+        - game_mode
+        - developer
+        - cover
+      properties:
+        title:
+          type: string
+        release_year:
+          type: integer
+        platforms:
+          type: array
+          items:
+            type: string
+        genre:
+          type: string
+        game_mode:
+          type: string
+        developer:
+          type: string
+        cover:
+          type: string
